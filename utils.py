@@ -105,6 +105,21 @@ class Utils:
         return base64.b64decode(t)
 
     @staticmethod
+    def md5_32(s: str) -> str:
+        """
+        返回 32 位 MD5（大写十六进制）
+        """
+        return hashlib.md5(s.encode("utf-8")).hexdigest().upper()
+
+    @staticmethod
+    def md5_16(s: str) -> str:
+        """
+        返回 16 位 MD5（取 32 位中间 16 位）
+        """
+        md5_32 = Utils.md5_32(s)
+        return md5_32[8:24]  # 截取中间 16 位
+
+    @staticmethod
     def aes_key_from_string(s: str) -> str:
         """
         输入任意字符串 -> 生成 AES-GCM 256-bit 密钥 (Base64)
