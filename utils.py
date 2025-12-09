@@ -105,6 +105,15 @@ class Utils:
         return base64.b64decode(t)
 
     @staticmethod
+    def aes_key_from_string(s: str) -> str:
+        """
+        输入任意字符串 -> 生成 AES-GCM 256-bit 密钥 (Base64)
+        """
+        # SHA-256 输出固定 32 bytes，正好符合 AES-256 要求
+        raw_key = hashlib.sha256(s.encode("utf-8")).digest()
+        return base64.b64encode(raw_key).decode("utf-8")
+    
+    @staticmethod
     def aesgcm_encrypt(plaintext: str, key_b64: str, aad: Optional[bytes] = None) -> str:
         if plaintext is None:
             raise ValueError("plaintext is None")
